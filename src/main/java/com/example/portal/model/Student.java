@@ -1,10 +1,6 @@
 package com.example.portal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "students")
@@ -19,9 +15,19 @@ public class Student {
     private String department;
     private Double cgpa;
 
+    // 🔴 REQUIRED: No-args constructor
     public Student() {
     }
 
+    // Optional constructor
+    public Student(String name, String email, String department, Double cgpa) {
+        this.name = name;
+        this.email = email;
+        this.department = department;
+        this.cgpa = cgpa;
+    }
+
+    // 🔴 REQUIRED: getters & setters
     public Long getId() {
         return id;
     }

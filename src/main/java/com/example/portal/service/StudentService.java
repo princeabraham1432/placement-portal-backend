@@ -21,4 +21,15 @@ public class StudentService {
     public List<Student> getAllStudents() {
         return repo.findAll();
     }
+
+    public Student getStudentById(Long id){
+        return repo.findById(id)
+                .orElseThrow(()->new RuntimeException("Student not found"));
+
+    }
+    public void deleteStudent(Long id) {
+        repo.deleteById(id);
+    }
+
+
 }
