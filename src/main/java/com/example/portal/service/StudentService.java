@@ -1,9 +1,10 @@
 package com.example.portal.service;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
 import com.example.portal.model.Student;
 import com.example.portal.repository.StudentRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -22,14 +23,27 @@ public class StudentService {
         return repo.findAll();
     }
 
-    public Student getStudentById(Long id){
+    public Student getStudentById(Long id) {
         return repo.findById(id)
-                .orElseThrow(()->new RuntimeException("Student not found"));
-
+                .orElseThrow(() ->
+                        new RuntimeException("Student not found with id " + id));
     }
+
+    // ✅ UPDATE (Day 3)
+    public Student updateStudent(Long id, Student newStudent) {
+        Student existing = repo.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Student not found with id " + id));
+
+        existing.setName(newStudent.getName());
+        existing.setEmail(newStudent.getEmail());
+        existing.setDepartment(newStudent.getDepartment());
+        existing.setCgpa(newStudent.getCgpa());
+
+        return repo.save(existing);
+    }
+
     public void deleteStudent(Long id) {
         repo.deleteById(id);
     }
-
-
 }
