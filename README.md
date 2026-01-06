@@ -1,35 +1,33 @@
-# Placement Portal Backend (Spring Boot)
+# Placement Portal Backend
 
-A RESTful backend application built using **Spring Boot** for managing student placement data.
+Spring Boot backend application for managing student placement data.
 
-## 🚀 Features
-- Add new students
-- Get all students
-- Get student by ID
-- Update student details
-- Delete student records
-
-## 🛠 Tech Stack
+## Tech Stack
 - Java 17
 - Spring Boot
 - Spring Data JPA
-- H2 In-Memory Database
+- H2 Database
 - Maven
-- Postman (API testing)
+- Postman
 
-## 📌 API Endpoints
+## Features
+- Create Student
+- Get All Students
+- Get Student by ID
+- Update Student
+- Delete Student
+- Validation & Exception Handling
+
+## API Endpoints
 
 | Method | Endpoint | Description |
-|------|---------|------------|
+|------|---------|-------------|
 | POST | /students | Create student |
 | GET | /students | Get all students |
 | GET | /students/{id} | Get student by ID |
 | PUT | /students/{id} | Update student |
 | DELETE | /students/{id} | Delete student |
 
-## 🧪 Testing
-APIs tested using **Postman**
-
-## 🧑‍💻 Author
-Prince Abraham  
-B.Tech CSE (AI) – 2026 Batch
+## How to Run
+```bash
+./mvnw spring-boot:run
