@@ -13,58 +13,26 @@ public class Student {
     private String name;
     private String email;
     private String department;
-    private Double cgpa;
+    private double cgpa;
 
-    // 🔴 REQUIRED: No-args constructor
-    public Student() {
-    }
+    public Student() {}
 
-    // Optional constructor
-    public Student(String name, String email, String department, Double cgpa) {
+    public Student(String name, String email, String department, double cgpa) {
         this.name = name;
         this.email = email;
         this.department = department;
         this.cgpa = cgpa;
     }
 
-    // 🔴 REQUIRED: getters & setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+    public String getDepartment() { return department; }
+    public double getCgpa() { return cgpa; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public Double getCgpa() {
-        return cgpa;
-    }
-
-    public void setCgpa(Double cgpa) {
-        this.cgpa = cgpa;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setEmail(String email) { this.email = email; }
+    public void setDepartment(String department) { this.department = department; }
+    public void setCgpa(double cgpa) { this.cgpa = cgpa; }
 }

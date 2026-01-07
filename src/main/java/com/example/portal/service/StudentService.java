@@ -1,5 +1,7 @@
 package com.example.portal.service;
 
+import com.example.portal.dto.StudentRequestDTO;
+import com.example.portal.exception.StudentNotFoundException;
 import com.example.portal.model.Student;
 import com.example.portal.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,13 @@ public class StudentService {
         this.repo = repo;
     }
 
-    public Student saveStudent(Student student) {
+    public Student saveStudent(StudentRequestDTO request) {
+        Student student = new Student(
+                request.getName(),
+                request.getEmail(),
+                request.getDepartment(),
+                request.getCgpa()
+        );
         return repo.save(student);
     }
 
@@ -25,25 +33,24 @@ public class StudentService {
 
     public Student getStudentById(Long id) {
         return repo.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Student not found with id " + id));
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
     }
 
-    // ✅ UPDATE (Day 3)
-    public Student updateStudent(Long id, Student newStudent) {
-        Student existing = repo.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Student not found with id " + id));
+    public Student updateStudent(Long id, StudentRequestDTO request) {
+        Student student = repo.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
 
-        existing.setName(newStudent.getName());
-        existing.setEmail(newStudent.getEmail());
-        existing.setDepartment(newStudent.getDepartment());
-        existing.setCgpa(newStudent.getCgpa());
+        student.setName(request.getName());
+        student.setEmail(request.getEmail());
+        student.setDepartment(request.getDepartment());
+        student.setCgpa(request.getCgpa());
 
-        return repo.save(existing);
+        return repo.save(student);
     }
 
     public void deleteStudent(Long id) {
-        repo.deleteById(id);
+        Student student = repo.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
+        repo.delete(student);
     }
 }
