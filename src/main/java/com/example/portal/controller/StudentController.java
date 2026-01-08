@@ -1,7 +1,7 @@
 package com.example.portal.controller;
 
 import com.example.portal.dto.StudentRequestDTO;
-import com.example.portal.model.Student;
+import com.example.portal.dto.StudentResponseDTO;
 import com.example.portal.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,29 +18,30 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody StudentRequestDTO request) {
-        return service.saveStudent(request);
+    public StudentResponseDTO createStudent(@RequestBody StudentRequestDTO dto) {
+        return service.createStudent(dto);
     }
 
     @GetMapping
-    public List<Student> getAllStudents() {
+    public List<StudentResponseDTO> getAllStudents() {
         return service.getAllStudents();
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id) {
+    public StudentResponseDTO getStudentById(@PathVariable Long id) {
         return service.getStudentById(id);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(
+    public StudentResponseDTO updateStudent(
             @PathVariable Long id,
-            @RequestBody StudentRequestDTO request) {
-        return service.updateStudent(id, request);
+            @RequestBody StudentRequestDTO dto) {
+        return service.updateStudent(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id) {
+    public String deleteStudent(@PathVariable Long id) {
         service.deleteStudent(id);
+        return "Student deleted successfully";
     }
 }

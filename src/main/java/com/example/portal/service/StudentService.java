@@ -1,12 +1,14 @@
 package com.example.portal.service;
 
 import com.example.portal.dto.StudentRequestDTO;
+import com.example.portal.dto.StudentResponseDTO;
 import com.example.portal.exception.StudentNotFoundException;
 import com.example.portal.model.Student;
 import com.example.portal.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -17,40 +19,55 @@ public class StudentService {
         this.repo = repo;
     }
 
-    public Student saveStudent(StudentRequestDTO request) {
-        Student student = new Student(
-                request.getName(),
-                request.getEmail(),
-                request.getDepartment(),
-                request.getCgpa()
-        );
-        return repo.save(student);
+    public StudentResponseDTO createStudent(StudentRequestDTO dto) {
+        Student student = new Student();
+        student.setName(dto.getName());
+        student.setEmail(dto.getEmail());
+        student.setDepartment(dto.getDepartment());
+        student.setCgpa(dto.getCgpa());
+
+        return mapToResponse(repo.save(student));
     }
 
-    public List<Student> getAllStudents() {
-        return repo.findAll();
+    public List<StudentResponseDTO> getAllStudents() {
+        return repo.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
     }
 
-    public Student getStudentById(Long id) {
-        return repo.findById(id)
+    public StudentResponseDTO getStudentById(Long id) {
+        Student student = repo.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
+        return mapToResponse(student);
     }
 
-    public Student updateStudent(Long id, StudentRequestDTO request) {
+    public StudentResponseDTO updateStudent(Long id, StudentRequestDTO dto) {
         Student student = repo.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
 
-        student.setName(request.getName());
-        student.setEmail(request.getEmail());
-        student.setDepartment(request.getDepartment());
-        student.setCgpa(request.getCgpa());
+        student.setName(dto.getName());
+        student.setEmail(dto.getEmail());
+        student.setDepartment(dto.getDepartment());
+        student.setCgpa(dto.getCgpa());
 
-        return repo.save(student);
+        return mapToResponse(repo.save(student));
     }
 
     public void deleteStudent(Long id) {
-        Student student = repo.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException("Student not found with id " + id));
-        repo.delete(student);
+        if (!repo.existsById(id)) {
+            throw new StudentNotFoundException("Student not found with id " + id);
+        }
+        repo.deleteById(id);
+    }
+
+    private StudentResponseDTO mapToResponse(Student student) {
+        return new StudentResponseDTO(
+                student.getId(),
+                student.getName(),
+                student.getEmail(),
+                student.getDepartment(),
+                student.getCgpa()
+        );
     }
 }
